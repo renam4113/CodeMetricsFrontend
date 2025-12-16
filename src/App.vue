@@ -19,41 +19,8 @@
 </template>
 
 <script>
-    import { mapMutations } from 'vuex';
-    import { Api } from '@/services';
-
     export default {
         name: "App",
-        data() {
-            return {
-                isLoading: true
-            };
-        },
-        methods: {
-            ...mapMutations({
-                setRepositories: 'repositories/setRepositories',
-            }),
-        },
-        mounted() {
-            this.isLoading = true;
-            return Api.getRepositories()
-                .then((response) => {
-                    if (!response.ok) {
-                        throw new Error('Ошибка загрузки репозиториев');
-                    }
-                    return response.json();
-                })
-                .then((data) => {
-                    this.setRepositories(data);
-                })
-                .catch((error) => {
-                    console.error('Error loading repositories:', error);
-                    alert('Ошибка при загрузке репозиториев');
-                })
-                .finally(() => {
-                    this.isLoading = false;
-                });
-        }
     }
 </script>
 
