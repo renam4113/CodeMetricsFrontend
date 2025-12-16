@@ -1,10 +1,22 @@
-import {createStore} from "vuex";
-import { projectsModule } from "@/store/projectsModule.js";
+import { createStore } from "vuex";
+import { repositoriesModule } from "@/store/repositoriesModule.js";
+import { developersModule } from "@/store/developersModule.js";
+
 export default createStore({
     state: {
         isAuth: false,
+        isLoading: false
+    },
+    getters: {
+        isLoading: (state) => state.isLoading
+    },
+    mutations: {
+        setLoading(state, isLoading) {
+            state.isLoading = isLoading;
+        }
     },
     modules: {
-        projects: projectsModule,
+        repositories: repositoriesModule,
+        developers: developersModule
     }
-})
+});
