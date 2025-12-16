@@ -80,42 +80,20 @@
         },
         setup() {
             const store = useStore();
-
-            const staticRepos = [
-                { label: 'demo-repo', value: 'demo-repo' },
-                { label: 'backend-service', value: 'backend-service' },
-            ];
-
             const repositories = computed(() => store.getters['repositories/getRepositories'] || []);
-            const repoOptions = computed(() => {
-                const fromStore = repositories.value.map(r => {
-                    const label = typeof r === 'string'
-                        ? r
-                        : r.name || r.repoName || r.RepoName || r.label || '';
-                    return label ? { label, value: label } : null;
-                }).filter(Boolean);
+            const repoOptions = computed(() => repositories.value.map(r => {
+                const label = typeof r === 'string'
+                    ? r
+                    : r.name || r.repoName || r.RepoName || r.label || '';
 
-                return fromStore.length ? fromStore : staticRepos;
-            });
+                return label ? { label, value: label } : null;
+            }).filter(Boolean));
 
             const selectedRepo = ref(null);
             const dateFrom = ref(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
             const dateTo = ref(new Date());
             const isLoading = ref(false);
-            const commits = ref([
-                {
-                    hash: 'abc123',
-                    message: 'Initial static commit example',
-                    authorName: 'Static Author',
-                    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString()
-                },
-                {
-                    hash: 'def456',
-                    message: 'Second static commit',
-                    authorName: 'Another Author',
-                    createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString()
-                }
-            ]);
+            const commits = ref([]);
 
             watch(repoOptions, (opts) => {
                 if (!selectedRepo.value && opts.length) {
@@ -162,9 +140,6 @@
 
                 isLoading.value = true;
                 try {
-                    // Очистка статики перед реальным запросом
-                    commits.value = [];
-
                     const response = await Api.getCommitsByRepository(selectedRepo.value, dateFrom.value, dateTo.value);
                     if (!response.ok) {
                         throw new Error('Не удалось загрузить коммиты');
