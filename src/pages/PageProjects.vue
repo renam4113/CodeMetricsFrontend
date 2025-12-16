@@ -1,13 +1,16 @@
 <template>
     <div class="page d-flex-column gap-20px">
-        <h2>Аналитика разработчиков</h2>
+        <h2>Аналитика репозиториев</h2>
 
         <div class="card">
-            <div class="card-header">Поиск разработчика</div>
-            <div class="d-flex gap-12px">
-                <InputText v-model="searchEmail"
-                           placeholder="Введите email разработчика"
-                           class="flex-1" />
+            <div class="card-header">Параметры выборки</div>
+            <div class="d-flex gap-12px flex-wrap">
+                <Dropdown v-model="selectedRepo"
+                          :options="repoOptions"
+                          optionLabel="label"
+                          optionValue="value"
+                          placeholder="Выберите репозиторий"
+                          class="flex-1" />
                 <DatePicker v-model="dateFrom"
                             showTime
                             hourFormat="24"
@@ -16,144 +19,151 @@
                             showTime
                             hourFormat="24"
                             placeholder="Дата окончания" />
-                <Button @click="searchDeveloper"
+                <Button @click="loadCommits"
                         severity="primary"
                         :loading="isLoading">
-                    Найти
+                    Загрузить
                 </Button>
             </div>
         </div>
 
-        <div v-if="selectedDeveloper" class="grid-3 gap-20px">
+        <div v-if="commitsTable.length" class="grid-3 gap-20px">
             <div class="metric-card">
-                <div class="metric-label">Производительность</div>
-                <div class="metric-value">{{ developerMetrics.performance.toFixed(1) }}</div>
-                <div class="metric-subtitle">из 10</div>
+                <div class="metric-label">Коммитов</div>
+                <div class="metric-value">{{ summary.commitCount }}</div>
+                <div class="metric-subtitle">{{ summary.period }}</div>
             </div>
 
             <div class="metric-card" style="background: linear-gradient(135deg, #4caf50 0%, #8bc34a 100%);">
-                <div class="metric-label">Стабильность</div>
-                <div class="metric-value">{{ developerMetrics.stability.toFixed(1) }}</div>
-                <div class="metric-subtitle">из 10</div>
+                <div class="metric-label">Активных авторов</div>
+                <div class="metric-value">{{ summary.authorCount }}</div>
+                <div class="metric-subtitle">за выбранный период</div>
             </div>
 
             <div class="metric-card" style="background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%);">
-                <div class="metric-label">Средний размер коммита</div>
-                <div class="metric-value">{{ developerMetrics.avgCommitSize }}</div>
-                <div class="metric-subtitle">строк</div>
+                <div class="metric-label">Последний коммит</div>
+                <div class="metric-value">{{ summary.lastCommitDate }}</div>
+                <div class="metric-subtitle">локальное время</div>
             </div>
-        </div>
-
-        <div v-if="selectedDeveloper" class="card">
-            <div class="card-header">Детальная статистика</div>
-            <DataTable :value="developerStats" class="p-datatable-sm">
-                <Column field="metric" header="Метрика"></Column>
-                <Column field="value" header="Значение"></Column>
-                <Column field="trend" header="Тренд">
-                    <template #body="slotProps">
-                        <i v-if="slotProps.data.trend === 'up'" class="pi pi-arrow-up text-green-500"></i>
-                        <i v-if="slotProps.data.trend === 'down'" class="pi pi-arrow-down text-red-500"></i>
-                        <span v-if="slotProps.data.trend === 'stable'" class="text-gray-500">→</span>
-                    </template>
-                </Column>
-            </DataTable>
         </div>
 
         <div class="card">
-            <div class="card-header">Сотрудничество в команде</div>
-            <div class="grid-3 gap-20px">
-                <div class="collaboration-card">
-                    <i class="pi pi-users text-4xl text-blue-500"></i>
-                    <div class="collaboration-value">{{ teamCollaboration.sharedCommits }}</div>
-                    <div class="collaboration-label">Совместные коммиты</div>
-                </div>
-                <div class="collaboration-card">
-                    <i class="pi pi-eye text-4xl text-green-500"></i>
-                    <div class="collaboration-value">{{ teamCollaboration.codeReviews }}</div>
-                    <div class="collaboration-label">Code Reviews</div>
-                </div>
-                <div class="collaboration-card">
-                    <i class="pi pi-code text-4xl text-orange-500"></i>
-                    <div class="collaboration-value">{{ teamCollaboration.pairProgramming }}</div>
-                    <div class="collaboration-label">Парное программирование</div>
-                </div>
-            </div>
+            <div class="card-header">Коммиты репозитория</div>
+            <DataTable :value="commitsTable" class="p-datatable-sm" responsiveLayout="scroll">
+                <Column field="hash" header="Хеш"></Column>
+                <Column field="author" header="Автор"></Column>
+                <Column field="message" header="Сообщение"></Column>
+                <Column field="createdAt" header="Дата"></Column>
+            </DataTable>
         </div>
     </div>
 </template>
 
 <script>
-    import { ref } from 'vue';
+    import { computed, ref, watch } from 'vue';
+    import { useStore } from 'vuex';
+    import Dropdown from 'primevue/dropdown';
+    import Button from 'primevue/button';
+    import Calendar from 'primevue/calendar';
+    import DataTable from 'primevue/datatable';
+    import Column from 'primevue/column';
     import { Api } from '@/services';
 
     export default {
-        name: "PageB",
+        name: "PageProjects",
+        components: {
+            Dropdown,
+            Button,
+            DatePicker: Calendar,
+            DataTable,
+            Column
+        },
         setup() {
-            const searchEmail = ref('');
+            const store = useStore();
+            const repositories = computed(() => store.getters['repositories/getRepositories'] || []);
+            const repoOptions = computed(() => repositories.value.map(r => {
+                const label = typeof r === 'string'
+                    ? r
+                    : r.name || r.repoName || r.RepoName || r.label || '';
+
+                return { label, value: label };
+            }));
+
+            const selectedRepo = ref(null);
             const dateFrom = ref(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
             const dateTo = ref(new Date());
             const isLoading = ref(false);
-            const selectedDeveloper = ref(null);
-            const developerMetrics = ref({
-                performance: 7.5,
-                stability: 8.2,
-                avgCommitSize: 125
-            });
-            const developerStats = ref([
-                { metric: 'Количество коммитов', value: '42', trend: 'up' },
-                { metric: 'Полезные строки', value: '5,240', trend: 'up' },
-                { metric: 'Измененные файлы', value: '156', trend: 'stable' },
-                { metric: 'Коэффициент вариации', value: '0.32', trend: 'down' },
-                { metric: 'Лучший день недели', value: 'Среда', trend: 'stable' }
-            ]);
-            const teamCollaboration = ref({
-                sharedCommits: 24,
-                codeReviews: 18,
-                pairProgramming: 12
+            const commits = ref([]);
+
+            watch(repoOptions, (opts) => {
+                if (!selectedRepo.value && opts.length) {
+                    selectedRepo.value = opts[0].value;
+                }
+            }, { immediate: true });
+
+            const commitsTable = computed(() => commits.value.map((c) => {
+                const hash = c.hash || c.Hash || '';
+                const message = c.message || c.Message || '';
+                const author = c.authorName || c.authorEmail || c.AuthorName || c.AuthorEmail || 'Неизвестно';
+                const createdAtRaw = c.createdAt || c.CreatedAt;
+                const createdAt = createdAtRaw
+                    ? new Date(createdAtRaw).toLocaleString()
+                    : '';
+
+                return { hash, message, author, createdAt };
+            }));
+
+            const summary = computed(() => {
+                const authorEmails = commits.value
+                    .map((c) => c.authorEmail || c.AuthorEmail || c.authorName || c.AuthorName)
+                    .filter(Boolean);
+
+                const lastCommitDate = commits.value
+                    .map((c) => c.createdAt || c.CreatedAt)
+                    .filter(Boolean)
+                    .map((d) => new Date(d))
+                    .sort((a, b) => b.getTime() - a.getTime())[0];
+
+                return {
+                    commitCount: commits.value.length,
+                    authorCount: new Set(authorEmails).size,
+                    lastCommitDate: lastCommitDate ? lastCommitDate.toLocaleDateString() : '—',
+                    period: `${dateFrom.value.toLocaleDateString()} — ${dateTo.value.toLocaleDateString()}`
+                };
             });
 
-            const searchDeveloper = async () => {
-                if (!searchEmail.value) {
-                    alert('Введите email разработчика');
+            const loadCommits = async () => {
+                if (!selectedRepo.value) {
+                    alert('Выберите репозиторий');
                     return;
                 }
 
                 isLoading.value = true;
                 try {
-                    const [performanceRes, summaryRes] = await Promise.all([
-                        Api.getAuthorPerformance(searchEmail.value, dateFrom.value, dateTo.value),
-                        Api.getAuthorSummary(searchEmail.value, dateFrom.value, dateTo.value)
-                    ]);
-
-                    if (performanceRes.ok && summaryRes.ok) {
-                        selectedDeveloper.value = searchEmail.value;
-                        const performanceData = await performanceRes.json();
-                        const summaryData = await summaryRes.json();
-
-                        developerMetrics.value = {
-                            performance: performanceData.score || 7.5,
-                            stability: performanceData.stability || 8.2,
-                            avgCommitSize: summaryData.averageChangeSize || 125
-                        };
+                    const response = await Api.getCommitsByRepository(selectedRepo.value, dateFrom.value, dateTo.value);
+                    if (!response.ok) {
+                        throw new Error('Не удалось загрузить коммиты');
                     }
+
+                    const data = await response.json();
+                    commits.value = Array.isArray(data) ? data : [];
                 } catch (error) {
-                    console.error('Error searching developer:', error);
-                    alert('Ошибка при поиске разработчика');
+                    console.error('Error loading commits:', error);
+                    alert('Ошибка при загрузке данных по репозиторию');
                 } finally {
                     isLoading.value = false;
                 }
             };
 
             return {
-                searchEmail,
+                repoOptions,
+                selectedRepo,
                 dateFrom,
                 dateTo,
                 isLoading,
-                selectedDeveloper,
-                developerMetrics,
-                developerStats,
-                teamCollaboration,
-                searchDeveloper
+                commitsTable,
+                summary,
+                loadCommits
             };
         }
     }

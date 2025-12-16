@@ -7,7 +7,7 @@
             <nav class="sidebar">
                 <h3 class="sidebar-title">Аналитика:</h3>
                 <ul class="d-flex-column gap-10px pad-20">
-                    <li class="nav-item" @click="$router.push({name: 'PageAb'})">По репозиториям</li>
+                    <li class="nav-item" @click="$router.push({name: 'PageProjects'})">По репозиториям</li>
                     <li class="nav-item" @click="$router.push({name: 'PageB'})">По разработчикам</li>
                 </ul>
             </nav>
@@ -22,26 +22,8 @@
     import { mapMutations } from 'vuex';
     import { Api } from '@/services';
 
-    // Импортируем компоненты PrimeVue для глобальной регистрации
-    import Button from 'primevue/button';
-    import Select from 'primevue/select';
-    import DatePicker from 'primevue/datepicker';
-    import Chart from 'primevue/chart';
-    import InputText from 'primevue/inputtext';
-    import DataTable from 'primevue/datatable';
-    import Column from 'primevue/column';
-
     export default {
         name: "App",
-        components: {
-            Button,
-            Select,
-            DatePicker,
-            Chart,
-            InputText,
-            DataTable,
-            Column
-        },
         data() {
             return {
                 isLoading: true

@@ -8,14 +8,14 @@ const routes = [
     {
         path: '/repositories',
         component: () => import('@/pages/PageProjects.vue'),
-        name: 'PageAb',
-        meta: { title: 'Аналитика репозиториев' }
+        name: 'PageProjects',
+        meta: { title: 'РђРЅР°Р»РёС‚РёРєР° СЂРµРїРѕР·РёС‚РѕСЂРёРµРІ' }
     },
     {
         path: '/developers',
         component: () => import('@/pages/PageB.vue'),
         name: 'PageB',
-        meta: { title: 'Аналитика разработчиков' }
+        meta: { title: 'РђРЅР°Р»РёС‚РёРєР° СЂР°Р·СЂР°Р±РѕС‚С‡РёРєРѕРІ' }
     },
 ]
 

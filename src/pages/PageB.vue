@@ -84,10 +84,9 @@
 
 <script>
     import { ref } from 'vue';
-    import { useStore } from 'vuex';
     import InputText from 'primevue/inputtext';
     import Button from 'primevue/button';
-    import DatePicker from 'primevue/datepicker';
+    import Calendar from 'primevue/calendar';
     import DataTable from 'primevue/datatable';
     import Column from 'primevue/column';
     import { Api } from '@/services';
@@ -97,12 +96,11 @@
         components: {
             InputText,
             Button,
-            DatePicker,
+            DatePicker: Calendar,
             DataTable,
             Column
         },
         setup() {
-            const store = useStore();
             const searchEmail = ref('');
             const dateFrom = ref(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
             const dateTo = ref(new Date());
