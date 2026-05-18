@@ -126,6 +126,16 @@
                 pairProgramming: 12
             });
 
+            const calculateStability = (weeksArray) => {
+                if (!Array.isArray(weeksArray) || weeksArray.length === 0) return 0;
+                const mean = weeksArray.reduce((a, b) => a + b, 0) / weeksArray.length;
+                if (mean === 0) return 0;
+                const variance = weeksArray.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / weeksArray.length;
+                const cv = Math.sqrt(variance) / mean; 
+                return Math.max(0, Math.min(10, (1 - cv) * 10)); 
+            };
+
+
             const searchDeveloper = async () => {
                 if (!searchEmail.value) {
                     alert('Введите email разработчика');
@@ -147,10 +157,10 @@
 
                         // Обновляем метрики на основе полученных данных
                         developerMetrics.value = {
-                            performance: performanceData.score || 7.5,
-                            stability: performanceData.stability || 8.2,
+                            performance: performanceData.speed?.commits || 7.5, 
+                            stability: calculateStability(performanceData.stability?.weeks),
                             avgCommitSize: summaryData.averageChangeSize || 125
-                        };
+};
                     }
                 } catch (error) {
                     console.error('Error searching developer:', error);
