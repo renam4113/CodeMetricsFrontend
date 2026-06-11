@@ -1,0 +1,1463 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CodeMetrics",
+    "version": "1.0"
+  },
+  "paths": {
+    "/api/CodeMetrics/author/summary": {
+      "get": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorSummaryDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorSummaryDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorSummaryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodeMetrics/author/performance": {
+      "get": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorPerformanceDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorPerformanceDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorPerformanceDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodeMetrics/ProjectMetric": {
+      "get": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMetricsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMetricsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectMetricsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CodeMetrics/GetByPeriod": {
+      "get": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CodeMetrics/Commits": {
+      "get": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CodeMetrics/Commit": {
+      "get": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "hash",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/CodeMetrics/UpdateDataBase": {
+      "post": {
+        "tags": [
+          "CodeMetrics"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/database/repositories": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RepositoryDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RepositoryDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RepositoryDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/database/repositories/{repoName}": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RepositoryDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RepositoryDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RepositoryDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/database/repositories/{repoName}/branches": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BranchDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/database/repositories/{repoName}/commits": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "parameters": [
+          {
+            "name": "repoName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommitListItemDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommitListItemDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CommitListItemDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/database/commits/{hash}": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitListItemDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitListItemDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitListItemDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/database/commits/{hash}/stats": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "parameters": [
+          {
+            "name": "hash",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitStatsRecordDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitStatsRecordDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommitStatsRecordDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/database/users/{email}": {
+      "get": {
+        "tags": [
+          "CodeMetricsDatabase"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Olama/ask": {
+      "post": {
+        "tags": [
+          "Olama"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OllamaTextRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OllamaTextRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OllamaTextRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OllamaTextResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OllamaTextResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OllamaTextResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Olama/chat": {
+      "post": {
+        "tags": [
+          "Olama"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OllamaTextRequestDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OllamaTextRequestDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/OllamaTextRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/OllamaTextResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OllamaTextResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OllamaTextResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Olama/analyze-performance": {
+      "get": {
+        "tags": [
+          "Olama"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "startDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "endDate",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "context",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sonarProjectKey",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sonarBranch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerformanceAnalysisResponseDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerformanceAnalysisResponseDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PerformanceAnalysisResponseDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Olama/fine-tuning-guide": {
+      "get": {
+        "tags": [
+          "Olama"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/FineTuningGuideDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FineTuningGuideDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FineTuningGuideDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SonarQube/quality-gate/{projectKey}": {
+      "get": {
+        "tags": [
+          "SonarQube"
+        ],
+        "parameters": [
+          {
+            "name": "projectKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SonarQube/measures/{projectKey}": {
+      "get": {
+        "tags": [
+          "SonarQube"
+        ],
+        "parameters": [
+          {
+            "name": "projectKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "metrics",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SonarQube/issues/{projectKey}": {
+      "get": {
+        "tags": [
+          "SonarQube"
+        ],
+        "parameters": [
+          {
+            "name": "projectKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "statuses",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "OPEN,CONFIRMED"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SonarQube/metrics": {
+      "get": {
+        "tags": [
+          "SonarQube"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SonarQube/scan-summary/{projectKey}": {
+      "get": {
+        "tags": [
+          "SonarQube"
+        ],
+        "parameters": [
+          {
+            "name": "projectKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SonarQube/scan": {
+      "post": {
+        "tags": [
+          "SonarQube"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActiveCommitterDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "commitCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalChangedLines": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuthorPerformanceDto": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "speed": {
+            "$ref": "#/components/schemas/SpeedMetricsDto"
+          },
+          "stability": {
+            "$ref": "#/components/schemas/StabilityMetricsDto"
+          },
+          "normalization": {
+            "$ref": "#/components/schemas/NormalizationMetricsDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AuthorSummaryDto": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodDto"
+          },
+          "weekly": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WeeklyActivityDto"
+            },
+            "nullable": true
+          },
+          "averageChangeSize": {
+            "type": "number",
+            "format": "double"
+          },
+          "bestDays": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DayActivityDto"
+            },
+            "nullable": true
+          },
+          "bestHours": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HourActivityDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BranchDto": {
+        "type": "object",
+        "properties": {
+          "branchName": {
+            "type": "string",
+            "nullable": true
+          },
+          "repoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastCommitHash": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommitListItemDto": {
+        "type": "object",
+        "properties": {
+          "hash": {
+            "type": "string",
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "authorName": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "repoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "committerEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "committerName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CommitStatsRecordDto": {
+        "type": "object",
+        "properties": {
+          "commitHash": {
+            "type": "string",
+            "nullable": true
+          },
+          "addedLines": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "deletedLines": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "changedFiles": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalChanges": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DayActivityDto": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "nullable": true
+          },
+          "commits": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FineTuningGuideDto": {
+        "type": "object",
+        "properties": {
+          "currentModel": {
+            "type": "string",
+            "nullable": true
+          },
+          "canFineTuneLocally": {
+            "type": "boolean"
+          },
+          "summary": {
+            "type": "string",
+            "nullable": true
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FineTuningMethodDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FineTuningMethodDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "difficulty": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HourActivityDto": {
+        "type": "object",
+        "properties": {
+          "hour": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "commits": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "NormalizationMetricsDto": {
+        "type": "object",
+        "properties": {
+          "Max_Commits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Min_Commits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Max_Lines": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Min_Lines": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "OllamaTextRequestDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "sonarProjectKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "sonarBranch": {
+            "type": "string",
+            "nullable": true
+          },
+          "metricsAuthorEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "metricsStartDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "metricsEndDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "OllamaTextResponseDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PerformanceAnalysisMetricsDto": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "$ref": "#/components/schemas/AuthorSummaryDto"
+          },
+          "performance": {
+            "$ref": "#/components/schemas/AuthorPerformanceDto"
+          },
+          "project": {
+            "$ref": "#/components/schemas/ProjectMetricsDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PerformanceAnalysisResponseDto": {
+        "type": "object",
+        "properties": {
+          "author": {
+            "type": "string",
+            "nullable": true
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodDto"
+          },
+          "comment": {
+            "type": "string",
+            "nullable": true
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/PerformanceAnalysisMetricsDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PeriodDto": {
+        "type": "object",
+        "properties": {
+          "start": {
+            "type": "string",
+            "nullable": true
+          },
+          "end": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProjectMetricsDto": {
+        "type": "object",
+        "properties": {
+          "project": {
+            "type": "string",
+            "nullable": true
+          },
+          "period": {
+            "$ref": "#/components/schemas/PeriodDto"
+          },
+          "activeCommitters": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActiveCommitterDto"
+            },
+            "nullable": true
+          },
+          "totalCommits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalChangedLines": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "repositoryCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RepositoryDto": {
+        "type": "object",
+        "properties": {
+          "repoName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ownerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "defaultBranch": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isFork": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ScanRequest": {
+        "type": "object",
+        "properties": {
+          "projectKey": {
+            "type": "string",
+            "nullable": true
+          },
+          "projectPath": {
+            "type": "string",
+            "nullable": true
+          },
+          "branch": {
+            "type": "string",
+            "nullable": true
+          },
+          "additionalParams": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SpeedMetricsDto": {
+        "type": "object",
+        "properties": {
+          "commits": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Useful_Lines": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StabilityMetricsDto": {
+        "type": "object",
+        "properties": {
+          "weeks": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UserDto": {
+        "type": "object",
+        "properties": {
+          "userEmail": {
+            "type": "string",
+            "nullable": true
+          },
+          "userName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WeeklyActivityDto": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "week": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "from": {
+            "type": "string",
+            "nullable": true
+          },
+          "to": {
+            "type": "string",
+            "nullable": true
+          },
+          "commitCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
