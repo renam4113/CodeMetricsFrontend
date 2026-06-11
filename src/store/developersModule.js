@@ -28,9 +28,9 @@ export const developersModule = {
         }
     },
     actions: {
-        async fetchDeveloperMetrics({ commit }, { email, startDate, endDate }) {
+        async fetchDeveloperMetrics({ email, startDate, endDate }) {
             try {
-                // Здесь будет реальный вызов API
+                // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ API
                 console.log(`Fetching metrics for ${email} from ${startDate} to ${endDate}`);
             } catch (error) {
                 console.error('Error fetching developer metrics:', error);
